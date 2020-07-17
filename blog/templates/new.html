@@ -1,0 +1,44 @@
+<style>
+    body {
+        background-color: whitesmok;   
+    }
+
+    div {
+        font-family:"Georgia";
+        text-align:center;
+        padding:5rem;
+        width:50%;
+        margin:auto;
+    }
+</style>
+
+
+
+<div>
+    <h1>new post</h1>
+    <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+    
+        <input class = "btn btn-dark" type="submit" value="저장">
+    </form>
+</div>
+
+
+
+
+<!-- <form action="{%url 'create'%}" method = "POST">
+        GET방식은 보안에 안좋다. 그래서 POST방식으로 action 취함
+    {%csrf_token%}
+        csrf 공격을 방지하기 위해 csrf token 쓴다
+    제목 : <input type="text" name = "title">
+    <br>
+    <br>
+    본문 : <textarea name="body" id="" cols="30" rows="10"></textarea>
+    <button type = "submit">작성!</button>
+
+</form> -->
+
+<!-- 폼 어려워ㅠㅠ -->
