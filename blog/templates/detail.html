@@ -2,12 +2,12 @@
 <style>
     body {
         background-color: whitesmok;   
-
+        padding:5rem;
     }
     div {
         font-family:"Georgia";
         text-align:center;
-        padding:5rem;
+        padding:1rem;
         width:50%;
         margin:auto;
     }
@@ -36,7 +36,9 @@
 		color: whitesmoke;
 	}
 </style>
-    <div>
+
+
+<div>   
     <h1>{{blog.title}}</h1>
     <hr>
 
@@ -44,9 +46,45 @@
 
     <p>{{blog.body}}</p>
 
-    <a href="{% url 'edit' blog.id %}"> Edit</a>
-    <a>/</a>
+    {% if blog.image %}
+    <!-- if 꼭 해줘야한다 안하면 그림 없을 때 오류남ㅠㅠ! -->
+    <img src="{{blog.image.url}}">
+    {% endif %}
+</div>
+
+<!-- ❤️ 좋아요 ❤️ -->
+<div style="float;right;text-align: right;">
+    <form action="/blog/like/{{blog.id}}" method="GET">
+    <button type="submit" style="float: right;">❤️ LIKE ❤️</button>
+    <br>
+    <p style=text-align: right;>{{likes}}명이 좋아합니다</p>
+    </form>
+</div>
+
+<div>
+    <a href="{% url 'edit' blog.id %}"> Edit</a> / 
     <a href="{% url 'delete' blog.id %}"> Delete </a>
+</div>
 
     <!-- url 안에는 쌍따옴표"쓰면 오류난다 -->
-    </div>
+
+<!-- 댓글달기 -->
+<div>
+    <hr>
+    <h4>Comment</h4>
+    <form action="/blog/commenting/{{blog.id}}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="body" placeholder="post a comment">
+    <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div style="text-align: left;">
+    {% for comment in comments %}
+    Writer {{comment.author}}
+    <br>{{comment.body}}
+    <p style="text-align: right;">{{comment.pub_date}}</p>
+    <hr>
+    {% endfor %}
+</div>
+

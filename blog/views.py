@@ -1,17 +1,34 @@
 from django.shortcuts import render,get_object_or_404, redirect
-from .models import Blog    # Blog class를 가져온다.
+from .models import *   # Blog class를 가져온다.
 from django.utils import timezone # 현재시간 저장
 from .form import BlogForm
+
 
 # Create your views here.
 
 def list(request):
     blogs = Blog.objects.all()  # Blog class에 있는 객체를 모두 가져온다.
+    
     return render(request, 'list.html',{'blogs':blogs})
+
+
 
 def detail(request,blog_id):
     blog = get_object_or_404(Blog, pk = blog_id)    # class이름, pk=primal key -> DB에 있는 id  # 안되면 404페이지 띄워주세요
-    return render(request, 'detail.html',{'blog':blog}) # 객체를 blog에 저장해주세요 -> blog를 detail.html에 보내주세요
+    # 댓글
+    comments=Comment.objects.filter(blog=blog)
+    # 좋아요
+    like_num = len(blog.like.all())
+    return render(request, 'detail.html',{'blog':blog,'comments':comments,'likes':like_num}) # 객체를 blog에 저장해주세요 -> blog를 detail.html에 보내주세요
+
+def commenting(request,blog_id):
+    new_comment = Comment()
+    new_comment.blog = get_object_or_404(Blog, pk = blog_id) 
+    new_comment.author = request.user
+    new_comment.body = request.POST.get('body')
+    new_comment.save()
+
+    return redirect('/blog/'+str(blog_id))
 
 def new(request):   # 글을 만드는 작성 폼
 # 1. 데이터가 입력된 후 제출 버튼을 누르고 데이터 저장 = POST방식
@@ -52,3 +69,10 @@ def delete(request,blog_id):
     delete_blog = get_object_or_404(Blog, pk = blog_id)
     delete_blog.delete()    # 삭제하라는 명령!
     return redirect('list') # 삭제한 객체의 id를 물려받지 못한다. 4번을 삭제하면 4번 안나오고 5번 생성됨!
+
+def like(request,blog_id):
+    blog = get_object_or_404(Blog, pk = blog_id)
+    blog.like.add(request.user)
+    blog.save()
+
+    return redirect('/blog/'+str(blog_id))

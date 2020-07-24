@@ -9,6 +9,5 @@ class CustomUserModel(AbstractUser):
         ("F", "여자"),
     )
 
-
     birthday = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=2, blank=True, null=True, choices=GENDER)
