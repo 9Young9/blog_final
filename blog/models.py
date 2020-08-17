@@ -13,7 +13,7 @@ class Blog(models.Model):
     body = models.TextField()   # 본문  # CharField는 TextField보다 작은 값을 담는다!(데이터 절약)
     image = models.ImageField(upload_to="blog/", blank=True, null=True) # 이미지 받는 필드  # media/blog/파일이름 -> 이렇게 저장 된다
     # pip install pillow 라는 파이썬 패키지 깔아야함(이미지 하려면!)
-    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'likers')
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'likers', blank=True, null=True)
     # like 기능
 
     def __str__(self):  # 문자열로 보여준다.

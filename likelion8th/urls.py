@@ -7,8 +7,6 @@ import account.urls # import account.views는 필요 없는걸까? account 앱�
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',blog.views.list, name = "list"),
@@ -19,7 +17,8 @@ urlpatterns = [
     path('blog/update/<int:blog_id>', blog.views.update, name = "update"),
     path('blog/delete/<int:blog_id>', blog.views.delete, name = "delete"),
     path('account/', include(account.urls)),    # 이렇게 짧게 하는 건 앞에서 배운 걸까? 무슨 뜻이지
+    path('blog/commenting/<int:blog_id>', blog.views.commenting, name = "commenting"),
+    path('blog/like/<int:blog_id>', blog.views.like, name="like"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 위에 붙여서 쓰는 거 말고 이렇게 해도 됨!
 
 # python manage.py createsuperuser -> admin 페이지 계정 생성

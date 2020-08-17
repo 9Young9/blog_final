@@ -21,14 +21,14 @@ def detail(request,blog_id):
     like_num = len(blog.like.all())
     return render(request, 'detail.html',{'blog':blog,'comments':comments,'likes':like_num}) # 객체를 blog에 저장해주세요 -> blog를 detail.html에 보내주세요
 
-def commenting(request,blog_id):
+def commenting(request, blog_id):
     new_comment = Comment()
-    new_comment.blog = get_object_or_404(Blog, pk = blog_id) 
-    new_comment.author = request.user
+    new_comment.blog = get_object_or_404(Blog, pk = blog_id)
+    new_comment.author = request.user 
     new_comment.body = request.POST.get('body')
     new_comment.save()
+    return redirect('/blog/' + str(blog_id))
 
-    return redirect('/blog/'+str(blog_id))
 
 def new(request):   # 글을 만드는 작성 폼
 # 1. 데이터가 입력된 후 제출 버튼을 누르고 데이터 저장 = POST방식

@@ -72,9 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'likelion8th.wsgi.application'
 
-# TEMPLATE_DIRS = (
-#     os.path.join(os.path.dirname(__file__), 'template').replace('\\','/'),
-# )   # stackoverflow에서 복붙한거
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
